@@ -44,7 +44,7 @@
 
     .like-b:hover .b svg {
         transform: scale(1.1);
-        color: #f97316;
+        color: theme('colors.accent');
     }
 
     .like-b .like_button {
@@ -63,8 +63,7 @@
     }
 
     .like-b .liked+.b svg {
-        color: #ef4444;
-        /* red-500 */
-        fill: #ef4444;
+        color: theme('colors.accent');
+        fill: theme('colors.accent');
     }
 }
