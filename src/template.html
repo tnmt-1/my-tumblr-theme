@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{Title}{block:PostSummary} | {PostSummary}{/block:PostSummary}</title>
+    {block:Description}
+    <meta name="description" content="{MetaDescription}">{/block:Description}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon & OGP -->
+    <link rel="shortcut icon" href="{Favicon}">
+    <link rel="apple-touch-icon" href="{PortraitURL-128}">
+    <link rel="alternate" type="application/rss+xml" href="{RSS}">
+
+    <meta property="og:title" content="{Title}{block:PostTitle} - {PostTitle}{/block:PostTitle}">
+    <meta property="og:site_name" content="{Title}">
+    {block:Description}
+    <meta property="og:description" content="{MetaDescription}">{/block:Description}
+    <meta property="og:image" content="{PortraitURL-128}">
+
+    <!-- CSS Injection Point -->
+    <style>
+        /* INJECT_CSS */
+    </style>
+
+    <!-- Head Script Injection Point -->
+    <script>
+        /* INJECT_HEAD_JS */
+    </script>
+</head>
+
+<body
+    class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-40 transition-colors duration-300">
+        <div class="max-w-3xl mx-auto flex justify-between items-center p-4">
+            <h1 class="text-xl font-bold tracking-tight">
+                <a href="/" class="hover:text-brand transition-colors flex items-center gap-3">
+                    <img src="{PortraitURL-64}" alt="{Title}" class="w-8 h-8 rounded-full shadow-sm">
+                    {Title}
+                </a>
+            </h1>
+            <button id="darkToggle"
+                class="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition focus:outline-none"
+                aria-label="Toggle Dark Mode">
+                <span class="dark:hidden">🌙</span>
+                <span class="hidden dark:inline">☀️</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-3xl mx-auto flex gap-6 px-4 py-3 text-sm font-medium overflow-x-auto">
+            <a href="/" class="hover:text-brand whitespace-nowrap">Home</a>
+            <a href="/archive" class="hover:text-brand whitespace-nowrap">Archive</a>
+            {block:AskEnabled}<a href="/ask"
+                class="hover:text-brand whitespace-nowrap">{AskLabel}</a>{/block:AskEnabled}
+            {block:SubmissionsEnabled}<a href="/submit"
+                class="hover:text-brand whitespace-nowrap">{SubmitLabel}</a>{/block:SubmissionsEnabled}
+            <!-- Add your pages here -->
+            {block:HasPages}
+            {block:Pages}<a href="{URL}" class="hover:text-brand whitespace-nowrap">{Label}</a>{/block:Pages}
+            {/block:HasPages}
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto w-full p-4 grid gap-8 flex-grow">
+
+        {block:Posts}
+        <article
+            class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 relative group">
+
+            <!-- --- POST TYPES --- -->
+
+            <!-- Text Post -->
+            {block:Text}
+            {block:Title}
+            <h2 class="text-2xl font-bold mb-4 leading-tight">
+                <a href="{Permalink}" class="hover:text-brand transition-colors">{Title}</a>
+            </h2>
+            {/block:Title}
+
+            <div class="prose dark:prose-invert max-w-none prose-a:text-brand hover:prose-a:text-brand/80">
+                {Body}
+            </div>
+            {/block:Text}
+
+            <!-- Photo Post -->
+            {block:Photo}
+            <figure class="-mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-6">
+                {LinkOpenTag}
+                <img src="{PhotoURL-HighRes}" alt="{PhotoAlt}" class="w-full h-auto sm:rounded-t-xl object-cover">
+                {LinkCloseTag}
+            </figure>
+            {block:Caption}
+            <div class="prose dark:prose-invert max-w-none">
+                {Caption}
+            </div>
+            {/block:Caption}
+            {/block:Photo}
+
+            <!-- Panorama Post -->
+            {block:Panorama}
+            <figure class="-mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-6">
+                {LinkOpenTag}
+                <img src="{PhotoURL-Panorama}" alt="{PhotoAlt}" class="w-full h-auto sm:rounded-t-xl">
+                {LinkCloseTag}
+            </figure>
+            {block:Caption}
+            <div class="prose dark:prose-invert max-w-none">
+                {Caption}
+            </div>
+            {/block:Caption}
+            {/block:Panorama}
+
+            <!-- Photoset Post -->
+            {block:Photoset}
+            <div class="-mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-6">
+                {Photoset-700}
+            </div>
+            {block:Caption}
+            <div class="prose dark:prose-invert max-w-none">
+                {Caption}
+            </div>
+            {/block:Caption}
+            {/block:Photoset}
+
+            <!-- Quote Post -->
+            {block:Quote}
+            <blockquote
+                class="text-xl sm:text-2xl font-serif italic leading-relaxed text-gray-800 dark:text-gray-100 mb-4 pl-4 border-l-4 border-brand">
+                "{Quote}"
+            </blockquote>
+            {block:Source}
+            <div class="prose dark:prose-invert max-w-none text-right text-gray-600 dark:text-gray-400">
+                — {Source}
+            </div>
+            {/block:Source}
+            {/block:Quote}
+
+            <!-- Link Post -->
+            {block:Link}
+            <div
+                class="mb-4 bg-gray-50 dark:bg-gray-700/50 p-6 rounded-lg border border-gray-100 dark:border-gray-700 transition hover:border-brand/30">
+                <a href="{URL}" {Target} class="block">
+                    <h2 class="text-xl font-bold text-brand mb-2 flex items-center gap-2">
+                        {Name} <span class="text-lg">&rarr;</span>
+                    </h2>
+                    {block:Thumbnail}
+                    <img src="{Thumbnail-HighRes}" class="w-full h-48 object-cover rounded-md mb-3 opacity-90">
+                    {/block:Thumbnail}
+                    {block:Excerpt}
+                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{Excerpt}</p>
+                    {/block:Excerpt}
+                </a>
+            </div>
+            {block:Description}
+            <div class="prose dark:prose-invert max-w-none">
+                {Description}
+            </div>
+            {/block:Description}
+            {/block:Link}
+
+            <!-- Chat Post -->
+            {block:Chat}
+            {block:Title}
+            <h2 class="text-2xl font-bold mb-4">
+                <a href="{Permalink}" class="hover:text-brand">{Title}</a>
+            </h2>
+            {/block:Title}
+            <div class="space-y-3 font-sans">
+                {block:Lines}
+                <div class="flex gap-3 {block:Alt}flex-row-reverse{/block:Alt}">
+                    {block:Label}
+                    <span
+                        class="font-bold text-sm bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded self-start whitespace-nowrap">
+                        {Label}
+                    </span>
+                    {/block:Label}
+                    <span class="py-1">{Line}</span>
+                </div>
+                {/block:Lines}
+            </div>
+            {/block:Chat}
+
+            <!-- Audio Post -->
+            {block:Audio}
+            <div class="mb-6 flex items-center justify-center p-6 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                {AudioEmbed}
+            </div>
+            {block:Caption}
+            <div class="prose dark:prose-invert max-w-none">
+                {Caption}
+            </div>
+            {/block:Caption}
+            {/block:Audio}
+
+            <!-- Video Post -->
+            {block:Video}
+            <div class="mb-6 rounded-lg overflow-hidden aspect-w-16 aspect-h-9 shadow-sm">
+                {Video-700}
+            </div>
+            {block:Caption}
+            <div class="prose dark:prose-invert max-w-none">
+                {Caption}
+            </div>
+            {/block:Caption}
+            {/block:Video}
+
+            <!-- Answer Post -->
+            {block:Answer}
+            <div class="mb-6 flex gap-4 bg-gray-50 dark:bg-gray-700/30 p-5 rounded-lg border-l-4 border-brand">
+                <img src="{AskerPortraitURL-64}" class="w-12 h-12 rounded-full shadow-sm bg-white dark:bg-gray-600">
+                <div class="flex-1">
+                    <p class="font-bold text-sm mb-1 text-gray-500 dark:text-gray-400 uppercase tracking-wide">{Asker}
+                        asked:</p>
+                    <div class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                        {Question}
+                    </div>
+                </div>
+            </div>
+            <div class="prose dark:prose-invert max-w-none">
+                {Answer}
+            </div>
+            {/block:Answer}
+
+            <!-- --- FOOTER META --- -->
+            <footer class="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700 flex flex-col gap-4">
+
+                <!-- Tags -->
+                {block:HasTags}
+                <div class="flex flex-wrap gap-2">
+                    {block:Tags}
+                    <a href="{TagURL}"
+                        class="text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2.5 py-1 rounded transition hover:bg-brand hover:text-white">
+                        #{Tag}
+                    </a>
+                    {/block:Tags}
+                </div>
+                {/block:HasTags}
+
+                <!-- Info Row -->
+                <div class="flex flex-wrap items-center justify-between gap-4 text-sm text-gray-500 dark:text-gray-400">
+
+                    <!-- Date & Notes -->
+                    <div class="flex items-center gap-3">
+                        <a href="{Permalink}"
+                            class="hover:text-brand hover:underline decoration-brand underline-offset-4"
+                            title="{TimeAgo}">
+                            {Year}年{MonthNumber}月{DayOfMonth}日
+                        </a>
+                        {block:NoteCount}
+                        <span>&middot;</span>
+                        <a href="{Permalink}"
+                            class="hover:text-brand hover:underline decoration-brand underline-offset-4">
+                            {NoteCountWithLabel}
+                        </a>
+                        {/block:NoteCount}
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex items-center gap-4 action-bar">
+                        <!-- Reblog -->
+                        <a href="{ReblogURL}" target="_blank" class="hover:text-brand transition-colors p-1"
+                            title="Reblog">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="feather feather-repeat">
+                                <polyline points="17 1 21 5 17 9"></polyline>
+                                <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                                <polyline points="7 23 3 19 7 15"></polyline>
+                                <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                            </svg>
+                        </a>
+                        <!-- Like -->
+                        <div class="like-b" title="Like">
+                            {LikeButton}
+                            <span class="b">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-heart">
+                                    <path
+                                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                    </path>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Post Notes (Only on Permalink Page) -->
+                {block:PermalinkPage}
+                {block:PostNotes}
+                <div class="mt-8 pt-8 border-t border-gray-100 dark:border-gray-700">
+                    <h3 class="text-sm font-bold text-gray-500 uppercase mb-4">Notes</h3>
+                    {PostNotes}
+                </div>
+                {/block:PostNotes}
+                {/block:PermalinkPage}
+
+            </footer>
+
+        </article>
+        {/block:Posts}
+
+        <!-- Pagination -->
+        {block:Pagination}
+        <div class="flex items-center justify-between py-8">
+            <div class="w-1/3">
+                {block:PreviousPage}
+                <a href="{PreviousPage}"
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 rounded-lg hover:shadow-md hover:text-brand transition-all font-medium">
+                    &larr; Prev
+                </a>
+                {/block:PreviousPage}
+            </div>
+
+            <div class="w-1/3 text-center text-sm font-medium text-gray-500">
+                Page {CurrentPage} of {TotalPages}
+            </div>
+
+            <div class="w-1/3 flex justify-end">
+                {block:NextPage}
+                <a href="{NextPage}"
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 rounded-lg hover:shadow-md hover:text-brand transition-all font-medium">
+                    Next &rarr;
+                </a>
+                {/block:NextPage}
+            </div>
+        </div>
+        {/block:Pagination}
+
+    </main>
+
+    <!-- Footer -->
+    <footer
+        class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-8 text-center text-sm text-gray-500">
+        <p class="mb-2">&copy; {Year} {Title}</p>
+        <p>Theme design by <a href="#" class="hover:text-brand">You</a></p>
+    </footer>
+
+    <!-- Main Script Injection Point -->
+    <script>
+        /* INJECT_MAIN_JS */
+    </script>
+</body>
+
+</html>
