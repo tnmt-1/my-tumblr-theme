@@ -30,7 +30,7 @@
     </script>
 </head>
 
-<body <body class="bg-main text-text transition-colors duration-300 min-h-screen flex flex-col">
+<body class="bg-main text-text transition-colors duration-300 min-h-screen flex flex-col">
 
     <!-- Header -->
     <header class="bg-base shadow-sm sticky top-0 z-40 transition-colors duration-300">
@@ -300,31 +300,72 @@
         {/block:Posts}
 
         <!-- Pagination -->
+        <!-- Pagination -->
         {block:Pagination}
-        <div class="flex items-center justify-between py-8">
-            <div class="w-1/3">
+        <div class="flex items-center justify-between py-12 max-w-xl mx-auto w-full">
+            <div class="flex-1">
                 {block:PreviousPage}
                 <a href="{PreviousPage}"
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-base rounded-lg hover:shadow-md hover:text-accent transition-all font-medium">
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-base rounded-lg shadow-sm hover:shadow-md hover:text-accent transition-all font-medium text-sm">
                     &larr; Prev
                 </a>
                 {/block:PreviousPage}
             </div>
 
-            <div class="w-1/3 text-center text-sm font-medium text-gray-500">
-                Page {CurrentPage} of {TotalPages}
+            <div class="flex gap-2 px-4">
+                {block:JumpPagination length="5"}
+                {block:CurrentPage}
+                <span class="w-8 h-8 flex items-center justify-center bg-accent text-white rounded-lg font-bold text-sm shadow-sm pointer-events-none">
+                    {PageNumber}
+                </span>
+                {/block:CurrentPage}
+                {block:JumpPage}
+                <a href="{URL}" class="w-8 h-8 flex items-center justify-center bg-base text-gray-600 rounded-lg shadow-sm hover:bg-white hover:text-accent hover:shadow-md transition-all font-medium text-sm">
+                    {PageNumber}
+                </a>
+                {/block:JumpPage}
+                {/block:JumpPagination}
             </div>
 
-            <div class="w-1/3 flex justify-end">
+            <div class="flex-1 flex justify-end">
                 {block:NextPage}
                 <a href="{NextPage}"
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-base rounded-lg hover:shadow-md hover:text-accent transition-all font-medium">
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-base rounded-lg shadow-sm hover:shadow-md hover:text-accent transition-all font-medium text-sm">
                     Next &rarr;
                 </a>
                 {/block:NextPage}
             </div>
         </div>
         {/block:Pagination}
+
+        <!-- Permalink Pagination -->
+        {block:PermalinkPagination}
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 py-8 border-t border-gray-200/60 mt-8">
+            <div class="w-full sm:w-1/2">
+                {block:PreviousPost}
+                <a href="{PreviousPost}" class="group flex flex-col items-start px-4 py-3 bg-base rounded-xl border border-transparent hover:border-gray-100 hover:shadow-sm transition-all duration-300">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 group-hover:text-accent">Previous Post</span>
+                    <div class="flex items-center gap-2 text-text font-medium group-hover:translate-x-1 transition-transform">
+                        <span>&larr;</span>
+                        <span class="truncate">Go to previous</span>
+                    </div>
+                </a>
+                {/block:PreviousPost}
+            </div>
+
+            <div class="w-full sm:w-1/2">
+                {block:NextPost}
+                <a href="{NextPost}" class="group flex flex-col items-end px-4 py-3 bg-base rounded-xl border border-transparent hover:border-gray-100 hover:shadow-sm transition-all duration-300">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 group-hover:text-accent">Next Post</span>
+                    <div class="flex items-center gap-2 text-text font-medium group-hover:-translate-x-1 transition-transform">
+                        <span class="truncate">Go to next</span>
+                        <span>&rarr;</span>
+                    </div>
+                </a>
+                {/block:NextPost}
+            </div>
+        </div>
+        {/block:PermalinkPagination}
 
     </main>
 
