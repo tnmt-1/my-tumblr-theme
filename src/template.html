@@ -19,8 +19,35 @@
     <meta property="og:description" content="{MetaDescription}">{/block:Description}
     <meta property="og:image" content="{PortraitURL-128}">
 
+    <!-- Theme Options -->
+    <meta name="color:Background" content="#6A8BAA">
+    <meta name="color:Base" content="#F7F7F7">
+    <meta name="color:Sub" content="#A8B8A3">
+    <meta name="color:Accent" content="#D4B8D8">
+    <meta name="color:Text" content="#333333">
+
+    <meta name="if:Show Header Image" content="1">
+    <meta name="if:Sticky Header" content="1">
+    <meta name="if:Show Description" content="1">
+    <meta name="if:Show Tags" content="1">
+
+    <meta name="text:Home Label" content="Home">
+    <meta name="text:Archive Label" content="Archive">
+    <meta name="text:Ask Label" content="Ask">
+    <meta name="text:Submit Label" content="Submit">
+
+    <meta name="text:Google Analytics ID" content="">
+
     <!-- CSS Injection Point -->
     <style>
+        :root {
+            --color-main: {color:Background};
+            --color-base: {color:Base};
+            --color-sub: {color:Sub};
+            --color-accent: {color:Accent};
+            --color-text: {color:Text};
+        }
+
         /* INJECT_CSS */
     </style>
 
@@ -28,38 +55,56 @@
     <script>
         /* INJECT_HEAD_JS */
     </script>
+
+    {block:IfGoogleAnalyticsID}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={text:Google Analytics ID}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{text:Google Analytics ID}');
+    </script>
+    {/block:IfGoogleAnalyticsID}
 </head>
 
 <body class="bg-main text-text transition-colors duration-300 min-h-screen flex flex-col">
 
     <!-- Header -->
-    <header class="bg-base shadow-sm sticky top-0 z-40 transition-colors duration-300">
-        <div class="max-w-3xl mx-auto flex justify-between items-center p-4">
-            <h1 class="text-xl font-bold tracking-tight">
-                <a href="/" class="hover:text-accent transition-colors flex items-center gap-3">
-                    <img src="{PortraitURL-64}" alt="{Title}" class="w-8 h-8 rounded-full shadow-sm">
-                    {Title}
-                </a>
-            </h1>
+    <header class="bg-base shadow-sm {block:IfStickyHeader}sticky top-0{/block:IfStickyHeader} z-40 transition-colors duration-300 border-b border-gray-200">
+        <div class="max-w-3xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between mb-3">
+                <h1 class="text-xl font-bold tracking-tight">
+                    <a href="/" class="hover:text-accent transition-colors flex items-center gap-3">
+                        {block:IfShowHeaderImage}
+                        <img src="{PortraitURL-64}" alt="{Title}" class="w-8 h-8 rounded-full shadow-sm">
+                        {/block:IfShowHeaderImage}
+                        {Title}
+                    </a>
+                </h1>
+            </div>
 
+            {block:IfShowDescription}
+            {block:Description}
+            <div class="mb-3 text-sm text-gray-500 leading-relaxed max-w-2xl">
+                {Description}
+            </div>
+            {/block:Description}
+            {/block:IfShowDescription}
+
+            <!-- Navigation -->
+            <nav class="flex gap-5 text-sm font-medium overflow-x-auto">
+                <a href="/" class="hover:text-accent whitespace-nowrap transition-colors">{text:Home Label}</a>
+                <a href="/archive" class="hover:text-accent whitespace-nowrap transition-colors">{text:Archive Label}</a>
+                {block:AskEnabled}<a href="/ask"
+                    class="hover:text-accent whitespace-nowrap transition-colors">{text:Ask Label}</a>{/block:AskEnabled}
+                {block:SubmissionsEnabled}<a href="/submit"
+                    class="hover:text-accent whitespace-nowrap transition-colors">{text:Submit Label}</a>{/block:SubmissionsEnabled}
+                {block:HasPages}
+                {block:Pages}<a href="{URL}" class="hover:text-accent whitespace-nowrap transition-colors">{Label}</a>{/block:Pages}
+                {/block:HasPages}
+            </nav>
         </div>
     </header>
-
-    <!-- Navigation -->
-    <nav class="bg-base/80 backdrop-blur-sm border-b border-gray-200">
-        <div class="max-w-3xl mx-auto flex gap-6 px-4 py-3 text-sm font-medium overflow-x-auto">
-            <a href="/" class="hover:text-accent whitespace-nowrap">Home</a>
-            <a href="/archive" class="hover:text-accent whitespace-nowrap">Archive</a>
-            {block:AskEnabled}<a href="/ask"
-                class="hover:text-accent whitespace-nowrap">{AskLabel}</a>{/block:AskEnabled}
-            {block:SubmissionsEnabled}<a href="/submit"
-                class="hover:text-accent whitespace-nowrap">{SubmitLabel}</a>{/block:SubmissionsEnabled}
-            <!-- Add your pages here -->
-            {block:HasPages}
-            {block:Pages}<a href="{URL}" class="hover:text-accent whitespace-nowrap">{Label}</a>{/block:Pages}
-            {/block:HasPages}
-        </div>
-    </nav>
 
     <!-- Main Content -->
     <main class="max-w-3xl mx-auto w-full p-4 grid gap-8 flex-grow">
@@ -224,6 +269,7 @@
             <footer class="mt-8 pt-6 border-t border-gray-100 flex flex-col gap-4">
 
                 <!-- Tags -->
+                {block:IfShowTags}
                 {block:HasTags}
                 <div class="flex flex-wrap gap-2">
                     {block:Tags}
@@ -234,6 +280,7 @@
                     {/block:Tags}
                 </div>
                 {/block:HasTags}
+                {/block:IfShowTags}
 
                 <!-- Info Row -->
                 <div class="flex flex-wrap items-center justify-between gap-4 text-sm text-gray-500">

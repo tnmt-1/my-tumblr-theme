@@ -5,15 +5,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        main: '#6A8BAA',
-        sub: '#A8B8A3',
-        accent: '#D4B8D8',
-        base: '#F7F7F7',
-        text: '#333333',
+        main: "var(--color-main)",
+        sub: "var(--color-sub)",
+        accent: "var(--color-accent)",
+        base: "var(--color-base)",
+        text: "var(--color-text)",
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
-}
+  plugins: [require("@tailwindcss/typography")],
+};
