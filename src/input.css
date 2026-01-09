@@ -2,8 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
+@layer base {
+    :root {
+        --color-main: {color:Background};
+        --color-base: {color:Base};
+        --color-sub: {color:Sub};
+        --color-accent: {color:Accent};
+        --color-text: {color:Text};
+        color-scheme: dark;
+    }
 
+    body {
+        @apply bg-ctp-base text-ctp-text selection:bg-ctp-mauve/30 selection:text-ctp-mauve;
+    }
+
+    /* Standard Tailwind Prose customization for Catppuccin Mocha */
+    .prose {
+        --tw-prose-body: theme('colors.ctp-text');
+        --tw-prose-headings: theme('colors.ctp-mauve');
+        --tw-prose-lead: theme('colors.ctp-subtext1');
+        --tw-prose-links: theme('colors.ctp-mauve');
+        --tw-prose-bold: theme('colors.ctp-lavender');
+        --tw-prose-counters: theme('colors.ctp-overlay2');
+        --tw-prose-bullets: theme('colors.ctp-overlay2');
+        --tw-prose-hr: theme('colors.ctp-surface1');
+        --tw-prose-quotes: theme('colors.ctp-subtext1');
+        --tw-prose-quote-borders: theme('colors.ctp-mauve');
+        --tw-prose-captions: theme('colors.ctp-subtext0');
+        --tw-prose-code: theme('colors.ctp-pink');
+        --tw-prose-pre-code: theme('colors.ctp-text');
+        --tw-prose-pre-bg: theme('colors.ctp-mantle');
+        --tw-prose-th-borders: theme('colors.ctp-surface2');
+        --tw-prose-td-borders: theme('colors.ctp-surface1');
+    }
+}
+
+@layer components {
+    .btn-secondary {
+        @apply bg-ctp-surface0 text-ctp-text px-4 py-2 rounded-xl border border-ctp-surface1 hover:bg-ctp-surface1 hover:border-ctp-surface2 transition-all duration-200;
+    }
+
+    .card {
+        @apply bg-ctp-mantle border border-ctp-surface0/50 rounded-2xl shadow-xl overflow-hidden transition-all duration-300;
+    }
+
+    .nav-link {
+        @apply text-ctp-subtext1 hover:text-ctp-mauve transition-colors duration-200 font-medium;
+    }
+}
+
+@layer utilities {
     /* General Adjustments */
     article {
         text-autospace: normal;
@@ -18,8 +66,7 @@
 
     /* Photoset Grid Spacing */
     .html_photoset {
-        border-radius: 0.5rem;
-        overflow: hidden;
+        @apply rounded-xl overflow-hidden;
     }
 
     /* Action Bar Icons */
@@ -30,31 +77,19 @@
 
     /* Like Button Customization */
     .like-b {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        color: inherit;
-        cursor: pointer;
+        @apply relative inline-flex items-center justify-center cursor-pointer;
     }
 
     .like-b .b svg {
-        transition: transform .15s ease, color .15s ease;
+        @apply transition-all duration-200 text-ctp-subtext1;
     }
 
     .like-b:hover .b svg {
-        transform: scale(1.1);
-        color: theme('colors.accent');
+        @apply transform scale-110 text-ctp-red;
     }
 
     .like-b .like_button {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 10;
-        opacity: 0;
+        @apply absolute inset-0 z-10 opacity-0;
     }
 
     .like-b .like_button iframe {
@@ -63,18 +98,15 @@
     }
 
     .like-b .liked+.b svg {
-        color: theme('colors.accent');
-        fill: theme('colors.accent');
+        @apply text-ctp-red fill-ctp-red;
     }
 
-    /* Hide scrollbar for Chrome, Safari and Opera */
+    /* Hide scrollbar */
     .no-scrollbar::-webkit-scrollbar {
         display: none;
     }
-
-    /* Hide scrollbar for IE, Edge and Firefox */
     .no-scrollbar {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
+        -ms-overflow-style: none;
+        scrollbar-width: none;
     }
 }

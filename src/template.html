@@ -19,12 +19,12 @@
     <meta property="og:description" content="{MetaDescription}">{/block:Description}
     <meta property="og:image" content="{PortraitURL-128}">
 
-    <!-- Theme Options -->
-    <meta name="color:Background" content="#6A8BAA">
-    <meta name="color:Base" content="#F7F7F7">
-    <meta name="color:Sub" content="#A8B8A3">
-    <meta name="color:Accent" content="#D4B8D8">
-    <meta name="color:Text" content="#333333">
+    <!-- Theme Options (Catppuccin Mocha Defaults) -->
+    <meta name="color:Background" content="#1e1e2e">
+    <meta name="color:Base" content="#181825">
+    <meta name="color:Sub" content="#45475a">
+    <meta name="color:Accent" content="#cba6f7">
+    <meta name="color:Text" content="#cdd6f4">
 
     <meta name="if:Show Header Image" content="1">
     <meta name="if:Sticky Header" content="1">
@@ -40,14 +40,6 @@
 
     <!-- CSS Injection Point -->
     <style>
-        :root {
-            --color-main: {color:Background};
-            --color-base: {color:Base};
-            --color-sub: {color:Sub};
-            --color-accent: {color:Accent};
-            --color-text: {color:Text};
-        }
-
         /* INJECT_CSS */
     </style>
 
@@ -59,80 +51,85 @@
     {block:IfGoogleAnalyticsID}
     <script async src="https://www.googletagmanager.com/gtag/js?id={text:Google Analytics ID}"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '{text:Google Analytics ID}');
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', '{text:Google Analytics ID}');
     </script>
     {/block:IfGoogleAnalyticsID}
 </head>
 
-<body class="bg-main text-text transition-colors duration-300 min-h-screen flex flex-col">
+<body
+    class="bg-ctp-base text-ctp-text selection:bg-ctp-mauve/30 selection:text-ctp-mauve transition-colors duration-300 min-h-screen flex flex-col">
 
     <!-- Header -->
-    <header class="bg-base shadow-sm {block:IfStickyHeader}sticky top-0{/block:IfStickyHeader} z-40 transition-colors duration-300 border-b border-gray-200">
+    <header
+        class="bg-ctp-mantle/80 backdrop-blur-md shadow-2xl {block:IfStickyHeader}sticky top-0{/block:IfStickyHeader} z-40 transition-all duration-300 border-b border-ctp-surface0/50">
         <div class="max-w-3xl mx-auto px-4 py-4">
             <div class="flex items-center justify-between mb-3">
-                <h1 class="text-xl font-bold tracking-tight">
-                    <a href="/" class="hover:text-accent transition-colors flex items-center gap-3">
+                <h1 class="text-2xl font-black tracking-tighter">
+                    <a href="/"
+                        class="hover:text-ctp-mauve transition-all flex items-center gap-3 active:scale-95 duration-200">
                         {block:IfShowHeaderImage}
-                        <img src="{PortraitURL-64}" alt="{Title}" class="w-8 h-8 rounded-full shadow-sm">
+                        <img src="{PortraitURL-64}" alt="{Title}"
+                            class="w-10 h-10 rounded-xl shadow-lg border-2 border-ctp-surface1">
                         {/block:IfShowHeaderImage}
-                        {Title}
+                        <span
+                            class="bg-gradient-to-r from-ctp-mauve to-ctp-pink bg-clip-text text-transparent">{Title}</span>
                     </a>
                 </h1>
             </div>
 
             {block:IfShowDescription}
             {block:Description}
-            <div class="mb-3 text-sm text-gray-500 leading-relaxed max-w-2xl">
+            <div class="mb-3 text-sm text-ctp-subtext1 leading-relaxed max-w-2xl">
                 {Description}
             </div>
             {/block:Description}
             {/block:IfShowDescription}
 
             <!-- Navigation -->
-            <nav class="flex gap-5 text-sm font-medium overflow-x-auto">
-                <a href="/" class="hover:text-accent whitespace-nowrap transition-colors">{text:Home Label}</a>
-                <a href="/archive" class="hover:text-accent whitespace-nowrap transition-colors">{text:Archive Label}</a>
-                {block:AskEnabled}<a href="/ask"
-                    class="hover:text-accent whitespace-nowrap transition-colors">{text:Ask Label}</a>{/block:AskEnabled}
-                {block:SubmissionsEnabled}<a href="/submit"
-                    class="hover:text-accent whitespace-nowrap transition-colors">{text:Submit Label}</a>{/block:SubmissionsEnabled}
+            <nav class="flex gap-6 text-sm font-bold overflow-x-auto no-scrollbar py-2">
+                <a href="/" class="nav-link">{text:Home Label}</a>
+                <a href="/archive" class="nav-link">{text:Archive Label}</a>
+                {block:AskEnabled}<a href="/ask" class="nav-link">{text:Ask Label}</a>{/block:AskEnabled}
+                {block:SubmissionsEnabled}<a href="/submit" class="nav-link">{text:Submit
+                    Label}</a>{/block:SubmissionsEnabled}
                 {block:HasPages}
-                {block:Pages}<a href="{URL}" class="hover:text-accent whitespace-nowrap transition-colors">{Label}</a>{/block:Pages}
+                {block:Pages}<a href="{URL}" class="nav-link">{Label}</a>{/block:Pages}
                 {/block:HasPages}
             </nav>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-3xl mx-auto w-full p-4 grid gap-8 flex-grow">
+    <main class="max-w-3xl mx-auto w-full p-4 lg:p-8 grid gap-12 flex-grow">
 
         {block:Posts}
         <article
-            class="bg-base p-6 sm:p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 relative group">
+            class="card p-6 sm:p-10 relative group border-l-4 border-l-ctp-mauve/0 hover:border-l-ctp-mauve duration-500">
 
             <!-- --- POST TYPES --- -->
 
             <!-- Text Post -->
             {block:Text}
             {block:Title}
-            <h2 class="text-2xl font-bold mb-4 leading-tight">
-                <a href="{Permalink}" class="hover:text-accent transition-colors">{Title}</a>
+            <h2 class="text-3xl font-black mb-6 leading-tight text-ctp-mauve tracking-tight">
+                <a href="{Permalink}"
+                    class="hover:underline decoration-4 underline-offset-8 decoration-ctp-mauve/30 transition-all">{Title}</a>
             </h2>
             {/block:Title}
 
-            <div class="prose max-w-none prose-a:text-accent hover:prose-a:text-accent/80">
+            <div class="prose prose-lg max-w-none">
                 {Body}
             </div>
             {/block:Text}
 
             <!-- Photo Post -->
             {block:Photo}
-            <figure class="-mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-6">
+            <figure class="-mx-6 sm:-mx-10 -mt-6 sm:-mt-10 mb-8 border-b border-ctp-surface0">
                 {LinkOpenTag}
-                <img src="{PhotoURL-HighRes}" alt="{PhotoAlt}" class="w-full h-auto sm:rounded-t-xl object-cover">
+                <img src="{PhotoURL-HighRes}" alt="{PhotoAlt}" class="w-full h-auto object-cover">
                 {LinkCloseTag}
             </figure>
             {block:Caption}
@@ -171,11 +168,11 @@
             <!-- Quote Post -->
             {block:Quote}
             <blockquote
-                class="text-xl sm:text-2xl font-serif italic leading-relaxed text-text mb-4 pl-4 border-l-4 border-sub">
+                class="text-2xl sm:text-3xl font-serif font-black italic leading-relaxed text-ctp-text mb-6 pl-6 border-l-8 border-ctp-mauve/50">
                 "{Quote}"
             </blockquote>
             {block:Source}
-            <div class="prose max-w-none text-right text-gray-600 dark:text-gray-400">
+            <div class="prose max-w-none text-right text-ctp-subtext1">
                 — {Source}
             </div>
             {/block:Source}
@@ -183,21 +180,28 @@
 
             <!-- Link Post -->
             {block:Link}
-            <div class="mb-4 bg-sub/10 p-6 rounded-lg border border-gray-100 transition hover:border-sub/30">
+            <div
+                class="mb-6 bg-ctp-mantle p-6 rounded-2xl border border-ctp-surface0 hover:border-ctp-mauve transition-all group/link">
                 <a href="{URL}" {Target} class="block">
-                    <h2 class="text-xl font-bold text-accent mb-2 flex items-center gap-2">
+                    <h2
+                        class="text-xl font-black text-ctp-mauve mb-3 flex items-center gap-2 group-hover/link:translate-x-1 transition-transform">
                         {Name} <span class="text-lg">&rarr;</span>
                     </h2>
                     {block:Thumbnail}
-                    <img src="{Thumbnail-HighRes}" class="w-full h-48 object-cover rounded-md mb-3 opacity-90">
+                    <div class="rounded-xl overflow-hidden mb-4 border border-ctp-surface1">
+                        <img src="{Thumbnail-HighRes}"
+                            class="w-full h-48 object-cover opacity-90 transition-opacity group-hover/link:opacity-100">
+                    </div>
                     {/block:Thumbnail}
                     {block:Excerpt}
-                    <p class="text-gray-600 text-sm leading-relaxed">{Excerpt}</p>
+                    <div class="text-ctp-subtext1 text-sm leading-relaxed border-l-2 border-ctp-surface2 pl-4">
+                        {Excerpt}
+                    </div>
                     {/block:Excerpt}
                 </a>
             </div>
             {block:Description}
-            <div class="prose max-w-none">
+            <div class="prose prose-lg max-w-none mb-4">
                 {Description}
             </div>
             {/block:Description}
@@ -206,19 +210,23 @@
             <!-- Chat Post -->
             {block:Chat}
             {block:Title}
-            <h2 class="text-2xl font-bold mb-4">
-                <a href="{Permalink}" class="hover:text-accent">{Title}</a>
+            <h2 class="text-2xl font-black mb-6 text-ctp-mauve tracking-tight">
+                <a href="{Permalink}" class="hover:underline decoration-ctp-mauve/30">{Title}</a>
             </h2>
             {/block:Title}
-            <div class="space-y-3 font-sans">
+            <div class="space-y-4 font-sans">
                 {block:Lines}
-                <div class="flex gap-3 {block:Alt}flex-row-reverse{/block:Alt}">
+                <div class="flex gap-4 {block:Alt}flex-row-reverse{/block:Alt} items-start">
                     {block:Label}
-                    <span class="font-bold text-sm bg-sub/20 px-2 py-1 rounded self-start whitespace-nowrap">
+                    <span
+                        class="font-black text-[10px] uppercase tracking-widest bg-ctp-surface1 text-ctp-subtext1 px-2.5 py-1 rounded-md shadow-sm whitespace-nowrap mt-1">
                         {Label}
                     </span>
                     {/block:Label}
-                    <span class="py-1">{Line}</span>
+                    <div
+                        class="flex-1 bg-ctp-surface0/50 p-3 rounded-xl border border-ctp-surface1/50 {block:Alt}text-right bg-ctp-surface1/30{/block:Alt}">
+                        {Line}
+                    </div>
                 </div>
                 {/block:Lines}
             </div>
@@ -226,11 +234,11 @@
 
             <!-- Audio Post -->
             {block:Audio}
-            <div class="mb-6 flex items-center justify-center p-6 bg-sub/10 rounded-lg">
+            <div class="mb-8 p-8 bg-ctp-mantle rounded-2xl border border-ctp-surface0 shadow-inner">
                 {AudioEmbed}
             </div>
             {block:Caption}
-            <div class="prose max-w-none">
+            <div class="prose prose-lg max-w-none">
                 {Caption}
             </div>
             {/block:Caption}
@@ -250,23 +258,24 @@
 
             <!-- Answer Post -->
             {block:Answer}
-            <div class="mb-6 flex gap-4 bg-sub/10 p-5 rounded-lg border-l-4 border-sub">
-                <img src="{AskerPortraitURL-64}" class="w-12 h-12 rounded-full shadow-sm bg-base">
+            <div class="mb-8 flex gap-5 bg-ctp-mantle p-6 rounded-2xl border-l-8 border-ctp-mauve shadow-lg">
+                <img src="{AskerPortraitURL-64}"
+                    class="w-14 h-14 rounded-2xl shadow-xl border-2 border-ctp-surface1 bg-ctp-base">
                 <div class="flex-1">
-                    <p class="font-bold text-sm mb-1 text-gray-500 uppercase tracking-wide">{Asker}
-                        asked:</p>
-                    <div class="text-lg font-medium text-text">
+                    <p class="font-black text-[10px] mb-2 text-ctp-subtext0 uppercase tracking-[0.2em]">{Asker} asked:
+                    </p>
+                    <div class="text-xl font-bold text-ctp-text leading-tight">
                         {Question}
                     </div>
                 </div>
             </div>
-            <div class="prose max-w-none">
+            <div class="prose prose-lg max-w-none">
                 {Answer}
             </div>
             {/block:Answer}
 
             <!-- --- FOOTER META --- -->
-            <footer class="mt-8 pt-6 border-t border-gray-100 flex flex-col gap-4">
+            <footer class="mt-8 pt-6 border-t border-ctp-surface0/50 flex flex-col gap-4">
 
                 <!-- Tags -->
                 {block:IfShowTags}
@@ -274,7 +283,7 @@
                 <div class="flex flex-wrap gap-2">
                     {block:Tags}
                     <a href="{TagURL}"
-                        class="text-xs font-semibold bg-sub/20 text-gray-600 px-2.5 py-1 rounded transition hover:bg-accent hover:text-white">
+                        class="text-[10px] font-black uppercase tracking-widest bg-ctp-surface1 text-ctp-subtext1 px-3 py-1.5 rounded-lg transition-all hover:bg-ctp-mauve hover:text-ctp-base hover:-translate-y-0.5 shadow-sm">
                         #{Tag}
                     </a>
                     {/block:Tags}
@@ -283,7 +292,7 @@
                 {/block:IfShowTags}
 
                 <!-- Info Row -->
-                <div class="flex flex-wrap items-center justify-between gap-4 text-sm text-gray-500">
+                <div class="flex flex-wrap items-center justify-between gap-4 text-sm text-ctp-subtext1">
 
                     <!-- Date & Notes -->
                     <div class="flex items-center gap-3">
@@ -334,8 +343,8 @@
                 <!-- Post Notes (Only on Permalink Page) -->
                 {block:PermalinkPage}
                 {block:PostNotes}
-                <div class="mt-8 pt-8 border-t border-gray-100">
-                    <h3 class="text-sm font-bold text-gray-500 uppercase mb-4">Notes</h3>
+                <div class="mt-8 pt-8 border-t border-ctp-surface0/50">
+                    <h3 class="text-xs font-bold text-ctp-subtext0 uppercase tracking-widest mb-4">Notes</h3>
                     {PostNotes}
                 </div>
                 {/block:PostNotes}
@@ -347,27 +356,27 @@
         {/block:Posts}
 
         <!-- Pagination -->
-        <!-- Pagination -->
         {block:Pagination}
-        <div class="flex items-center justify-between py-12 max-w-xl mx-auto w-full">
+        <div class="flex items-center justify-between py-16 max-w-xl mx-auto w-full">
             <div class="flex-1">
                 {block:PreviousPage}
-                <a href="{PreviousPage}"
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-base rounded-lg shadow-sm hover:shadow-md hover:text-accent transition-all font-medium text-sm">
-                    &larr; Prev
+                <a href="{PreviousPage}" class="btn-secondary">
+                    &larr; Previous
                 </a>
                 {/block:PreviousPage}
             </div>
 
-            <div class="flex gap-2 px-4">
+            <div class="flex gap-3 px-4">
                 {block:JumpPagination length="5"}
                 {block:CurrentPage}
-                <span class="w-8 h-8 flex items-center justify-center bg-accent text-white rounded-lg font-bold text-sm shadow-sm pointer-events-none">
+                <span
+                    class="w-12 h-12 flex items-center justify-center bg-ctp-mauve text-ctp-base rounded-2xl font-black text-sm shadow-xl shadow-ctp-mauve/30">
                     {PageNumber}
                 </span>
                 {/block:CurrentPage}
                 {block:JumpPage}
-                <a href="{URL}" class="w-8 h-8 flex items-center justify-center bg-base text-gray-600 rounded-lg shadow-sm hover:bg-white hover:text-accent hover:shadow-md transition-all font-medium text-sm">
+                <a href="{URL}"
+                    class="w-12 h-12 flex items-center justify-center bg-ctp-surface0 text-ctp-subtext1 rounded-2xl border border-ctp-surface1 hover:border-ctp-mauve hover:text-ctp-mauve transition-all duration-200">
                     {PageNumber}
                 </a>
                 {/block:JumpPage}
@@ -376,8 +385,7 @@
 
             <div class="flex-1 flex justify-end">
                 {block:NextPage}
-                <a href="{NextPage}"
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-base rounded-lg shadow-sm hover:shadow-md hover:text-accent transition-all font-medium text-sm">
+                <a href="{NextPage}" class="btn-secondary">
                     Next &rarr;
                 </a>
                 {/block:NextPage}
@@ -387,12 +395,17 @@
 
         <!-- Permalink Pagination -->
         {block:PermalinkPagination}
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 py-8 border-t border-gray-200/60 mt-8">
+        <div
+            class="flex flex-col sm:flex-row items-center justify-between gap-4 py-8 border-t border-ctp-surface0/50 mt-8">
             <div class="w-full sm:w-1/2">
                 {block:PreviousPost}
-                <a href="{PreviousPost}" class="group flex flex-col items-start px-4 py-3 bg-base rounded-xl border border-transparent hover:border-gray-100 hover:shadow-sm transition-all duration-300">
-                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 group-hover:text-accent">Previous Post</span>
-                    <div class="flex items-center gap-2 text-text font-medium group-hover:translate-x-1 transition-transform">
+                <a href="{PreviousPost}"
+                    class="group flex flex-col items-start px-4 py-3 bg-base rounded-xl border border-transparent hover:border-ctp-surface0 hover:shadow-lg transition-all duration-300">
+                    <span
+                        class="text-xs font-bold text-ctp-subtext0 uppercase tracking-wider mb-1 group-hover:text-accent">Previous
+                        Post</span>
+                    <div
+                        class="flex items-center gap-2 text-text font-medium group-hover:translate-x-1 transition-transform">
                         <span>&larr;</span>
                         <span class="truncate">Go to previous</span>
                     </div>
@@ -402,9 +415,13 @@
 
             <div class="w-full sm:w-1/2">
                 {block:NextPost}
-                <a href="{NextPost}" class="group flex flex-col items-end px-4 py-3 bg-base rounded-xl border border-transparent hover:border-gray-100 hover:shadow-sm transition-all duration-300">
-                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 group-hover:text-accent">Next Post</span>
-                    <div class="flex items-center gap-2 text-text font-medium group-hover:-translate-x-1 transition-transform">
+                <a href="{NextPost}"
+                    class="group flex flex-col items-end px-4 py-3 bg-base rounded-xl border border-transparent hover:border-ctp-surface0 hover:shadow-lg transition-all duration-300">
+                    <span
+                        class="text-xs font-bold text-ctp-subtext0 uppercase tracking-wider mb-1 group-hover:text-accent">Next
+                        Post</span>
+                    <div
+                        class="flex items-center gap-2 text-text font-medium group-hover:-translate-x-1 transition-transform">
                         <span class="truncate">Go to next</span>
                         <span>&rarr;</span>
                     </div>
@@ -417,9 +434,8 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-base border-t border-gray-200 py-8 text-center text-sm text-gray-500">
-        <p class="mb-2">&copy; <span id="currentYear"></span> {Title}</p>
-        <p>Theme design by <a href="#" class="hover:text-accent">You</a></p>
+    <footer class="bg-base border-t border-ctp-surface0/50 py-12 text-center text-sm text-ctp-subtext0 mt-12">
+        <p class="mb-3">&copy; <span id="currentYear"></span> {Title}</p>
     </footer>
 
     <!-- Main Script Injection Point -->
