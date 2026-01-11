@@ -35,6 +35,19 @@
         --tw-prose-th-borders: theme('colors.ctp-surface2');
         --tw-prose-td-borders: theme('colors.ctp-surface1');
     }
+
+    /* List styling because Tailwind reset removes them */
+    ol {
+        list-style-type: decimal;
+        margin-left: 1.5rem;
+        list-style-position: outside;
+    }
+
+    ul {
+        list-style-type: disc;
+        margin-left: 1.5rem;
+        list-style-position: outside;
+    }
 }
 
 @layer components {
